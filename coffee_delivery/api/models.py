@@ -21,7 +21,8 @@ class CoffeeBean(models.Model):
     cleancup = models.PositiveSmallIntegerField(null=False, help_text='깔끔함')
     sweetness = models.PositiveSmallIntegerField(null=False, help_text='단맛')
     total_score = models.PositiveSmallIntegerField(null=False, help_text='종합 점수')
-
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.bean_name
@@ -35,6 +36,8 @@ class Coffee(models.Model):
     is_hot = models.BooleanField(null=False)
     price = models.PositiveIntegerField(null=False, help_text='커피 가격')
     size = models.CharField(max_length=2, default='M')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)    
 
     def __str__(self):
         return self.name

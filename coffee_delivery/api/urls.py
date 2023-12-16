@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import main
+from .views import CoffeeView, CoffeeBeanView
 
 urlpatterns = [
-    path('home', main)
+    path('coffee', CoffeeView.as_view()),
+    path('beans', CoffeeBeanView.as_view())
 ]

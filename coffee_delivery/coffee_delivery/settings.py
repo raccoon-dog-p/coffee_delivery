@@ -1,3 +1,4 @@
+import os
 """
 Django settings for coffee_delivery project.
 
@@ -44,7 +45,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'django.milddleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -55,6 +55,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITE_LIST = [
+    'https://localhost:8000',
     'https://localhost:3000']
 
 CORS_ORIGIN_ALLOW = True
@@ -64,7 +65,7 @@ ROOT_URLCONF = 'coffee_delivery.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend', 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,6 +76,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'frontend', 'build', 'static'),
 ]
 
 WSGI_APPLICATION = 'coffee_delivery.wsgi.application'
