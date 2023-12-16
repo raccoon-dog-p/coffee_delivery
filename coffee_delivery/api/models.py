@@ -22,7 +22,11 @@ class CoffeeBean(models.Model):
     sweetness = models.PositiveSmallIntegerField(null=False, help_text='단맛')
     total_score = models.PositiveSmallIntegerField(null=False, help_text='종합 점수')
 
-    class Meta:
+
+    def __str__(self):
+        return self.bean_name
+
+    class Meta: 
         db_table = 'coffee_bean'
 
 class Coffee(models.Model):
@@ -31,6 +35,9 @@ class Coffee(models.Model):
     is_hot = models.BooleanField(null=False)
     price = models.PositiveIntegerField(null=False, help_text='커피 가격')
     size = models.CharField(max_length=2, default='M')
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         db_table = 'coffee'
