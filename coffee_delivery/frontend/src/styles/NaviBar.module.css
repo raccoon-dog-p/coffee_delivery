@@ -1,17 +1,6 @@
 @charset "utf-8";
 
 
-/* ul {
-    flex: 1 1 0%;
-    display: flex;
-    -webkit-box-align: center;
-    align-items: center;
-    list-style: none;
-    text-align: center;
-    -webkit-box-pack: justify;
-    justify-content: space-between;
-} */
-
 a {
     display: flex;
     flex-direction: row;

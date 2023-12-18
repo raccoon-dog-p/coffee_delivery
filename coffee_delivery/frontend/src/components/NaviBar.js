@@ -1,12 +1,14 @@
 import styles from '../styles/NaviBar.module.css'
 import { Link } from 'react-router-dom';
+import logo from '../assets/logo.svg'
+import cart from '../assets/cart.svg'
 
 export default function NaviBar() {
     return (
         <header className={styles.header}>
             <nav className={styles.nav}>
             <Link to='/'>
-                <img src='img/logo.svg' style={styles.img}></img>
+                <img src={logo} style={styles.img}></img>
             </Link>
                 <ul className={styles.ul}>
                     <Link to='/reservation' style={styles.a}>
@@ -31,7 +33,7 @@ export default function NaviBar() {
                         </li>
                         <div className={styles.div}>
                             <Link to='/cart'>
-                            <img src='img/cart.svg'></img>
+                            <img src={cart}></img>
                             </Link>
                         </div>
                     </ul>
