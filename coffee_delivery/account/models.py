@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 
 # 헬퍼 클래스
 class UserManager(BaseUserManager):
-    def create_user(self, email, phone_number, password=None, **kwargs):
+    def create_user(self, email, phone_number=None, password=None, **kwargs):
         """
         주어진 이메일, 비밀번호 등 개인정보로 User 인스턴스 생성
         """
