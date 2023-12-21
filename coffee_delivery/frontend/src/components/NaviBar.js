@@ -28,7 +28,7 @@ export default function NaviBar() {
                     <ul className={styles.ul}>
                         <li className={styles.li}>
                             <Link to='/signin'>
-                            <button>로그인/회원가입</button>
+                            <button className={styles.button}>로그인/회원가입</button>
                             </Link>
                         </li>
                         <div className={styles.div}>

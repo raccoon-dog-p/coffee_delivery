@@ -94,6 +94,19 @@ header > nav > ul > ul {
     gap: 20px;
 }
 
+.right_ul > ul > div {
+    position: relative;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    cursor: pointer;
+    width: 38px;
+    padding: 4px;
+}
+
+
 header > nav > ul > ul > li {
     position: relative;
     display: flex;
