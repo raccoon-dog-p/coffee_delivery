@@ -5,10 +5,15 @@ from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator # 이메일 중복 방지를 위한 검증 도구
 from django.utils import timezone
+from dj_rest_auth.registration.serializers import RegisterSerializer
+from allauth.account.adapter import get_adapter
+from allauth.account.utils import setup_user_email
+from django.core.exceptions import ValidationError as DjangoValidationError
 
-
-# 회원가입 시리얼라이저
-class RegisterSerializer(serializers.ModelSerializer):
+class CustomRegisterSerializer(RegisterSerializer):
+    username = None
+    password1 = None
+    password2 = None
     email = serializers.EmailField(
         required=True,
         validators=[UniqueValidator(queryset=User.objects.only('email'))], # 이메일에 대한 중복 검증
@@ -24,10 +29,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         validators=[UniqueValidator(queryset=User.objects.only('phone_number'))] # 핸드폰 번호 검증
     )
 
-    class Meta:
-        model = User
-        fields = ('email', 'password', 'phone_number')
-
+    
     def validate(self, data):
         phone_number = data['phone_number']
         if len(phone_number) != 11:
@@ -39,6 +41,33 @@ class RegisterSerializer(serializers.ModelSerializer):
                 detail={"detail": "The phone number must consist of numbers only."},
                 code='phone_number_in_string')
         return data
+    
+    def get_cleaned_data(self):
+        return {
+            'email': self.validated_data.get('email', ''),
+            'password': self.validated_data.get('password', ''),
+        }
+
+    def save(self, request):
+        adapter = get_adapter()
+        user = adapter.new_user(request)
+        self.cleaned_data = self.get_cleaned_data()
+        user = adapter.save_user(request, user, self, commit=False)
+        if "password" in self.cleaned_data:
+            try:
+                adapter.clean_password(self.cleaned_data['password'], user=user)
+            except DjangoValidationError as exc:
+                raise serializers.ValidationError(
+                    detail=serializers.as_serializer_error(exc)
+                )
+        user.save()
+        self.custom_signup(request, user)
+        setup_user_email(request, user, [])
+        return user
+
+    class Meta:
+        model = User
+        fields = ('email', 'password', 'phone_number')
 
     def create(self, validated_data):
         # CREATE 요청에 대해 create 메서드를 오버라이딩하여, 유저를 생성
